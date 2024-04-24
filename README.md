@@ -21,4 +21,9 @@ Repo for CSIS10A Final Project
   - Convert/draw walls in 3D using JavaFX - hopefully the FPS isn't horrible.
   - Verify FOV is set to the middle of the screen, fix if not.
   - Fix fisheye effect on outer rays.
+
+### Step 4: If everything works, start making it pretty.
   - Add colors or textures to walls, floors, and ceilings
+  - Add a simple UI.
+  - Add sound.
+  - Add additional actors (if time allows).
