@@ -11,9 +11,9 @@ Repo for CSIS10A Final Project
   
 
 ### Step 2: Figure out movement, rotation, and rays.
-  - Create movement controls.
-  - Use trig to create movement rotation - convert 0 - 360 to radians.
-  - Cast a ray from the actor and use trigonometry to figure out x,y offset between grid units.
+  - Create movement controls -> assign Up: W, Down: S, Left: A, Right: D
+  - Use trig to create movement rotation - convert 0 - 360 to radians.  (Maybe on the mouse so that A and D are for strafe).
+  - Cast a ray from the actor and use trigonometry to figure out x, y offset between grid units.
   - Determine how to store where rays intersect with horizontal and vertical lines.
   - Add additional rays to simulate FOV.
 
