@@ -19,7 +19,7 @@ class Screen {
         width = w;
         height = h;
     }
-
+    //see if you can condense/make this more elegant before Thursday.
     public void update(Camera camera, WritableImage image) {
         PixelWriter writer = image.getPixelWriter();
         for (int x = 0; x < width; x++) {
@@ -97,13 +97,18 @@ class Screen {
                 int texY = (y - drawStart) * Texture.SIZE / lineHeight;
                 int color = texture.pixels[texX + texY * Texture.SIZE];
                 writer.setColor(x, y, Color.rgb((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff));
-
-            // Ceilings still under construction....
-
-            // Floors still under construction....
+            }
+            // Ceiling set to Blue
+             for (int y = 0; y < drawStart; y++){
+                writer.setColor(x, y, Color.BLUE);
+             }   
+            // Floors set to grey; maybe I can map a texture?
+            for (int y = drawEnd; y < height; y++){
+                writer.setColor(x, y, Color.DARKGRAY);
+            }
             }
         }
     }
-}
+
 
             

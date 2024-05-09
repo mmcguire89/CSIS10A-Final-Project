@@ -16,16 +16,16 @@ public class Game extends Application {
     public int mapHeight = 10;
     // Make the map bigger and a little more complex once you have your movement and performance issues figured out...
     public static int[][] map = {
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-        {1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 0, 0, 0, 1, 1, 1, 1},
-        {1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 1, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        {3, 4, 2, 3, 4, 1, 2, 3, 4, 2},
+        {4, 0, 0, 0, 0, 0, 0, 0, 0, 3},
+        {3, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+        {2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+        {4, 0, 0, 0, 0, 0, 0, 0, 0, 3},
+        {3, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+        {2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+        {4, 3, 2, 1, 4, 3, 2, 1, 4, 3}
     };
 
     private Camera camera;
@@ -39,12 +39,12 @@ public class Game extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         this.writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 
-        // Textures array list
+        // Textures array list - fixed null pointer exception.
         ArrayList<Texture> textures = new ArrayList<>();
         textures.add(new Texture("wood.png"));
-        textures.add(new Texture("brick.png"));
+        textures.add(new Texture("redbrick.png"));
         textures.add(new Texture("bluestone.png"));
-        textures.add(new Texture("stone.png"));
+        textures.add(new Texture("greyystone.png"));
 
         // Camera starting pos
         camera = new Camera(4.5, 4.5, 1, 0, 0, -0.66);
