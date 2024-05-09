@@ -7,7 +7,7 @@ public class Camera {
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;
     public boolean left, right, forward, back;
     public final double MOVE_SPEED = .08; //
-    public final double ROTATION_SPEED = .045;  //
+    public final double ROTATION_SPEED = .045; //
 
     public Camera(double x, double y, double xd, double yd, double xp, double yp) {
         xPos = x;
@@ -17,56 +17,64 @@ public class Camera {
         xPlane = xp;
         yPlane = yp;
     }
-    // holy shit this condensed logic works so much better.
+
+    // Key press handler
     public EventHandler<KeyEvent> keyPressedHandler = event -> {
         switch (event.getCode()) {
             case A -> left = true;
             case D -> right = true;
             case W -> forward = true;
             case S -> back = true;
-            default -> throw new IllegalArgumentException("Unexpected value: " + event.getCode());
+            default -> {
+            }
         }
-    };
 
+    };
+    // Key release handler
     public EventHandler<KeyEvent> keyReleasedHandler = event -> {
         switch (event.getCode()) {
             case A -> left = false;
             case D -> right = false;
             case W -> forward = false;
             case S -> back = false;
-            default -> throw new IllegalArgumentException("Unexpected value: " + event.getCode());
+            default -> {
+            }
         }
     };
-// try to trim this code if possible.  Can you approximate constants for your trig math?
-    public void update(int[][] map) {
-        if (forward) {
-            if (map[(int) (xPos + xDir * MOVE_SPEED)][(int) yPos] == 0) {
-                xPos += xDir * MOVE_SPEED;
-            }
-            if (map[(int) xPos][(int) (yPos + yDir * MOVE_SPEED)] == 0)
-                yPos += yDir * MOVE_SPEED;
-        }
-        if (back) {
-            if (map[(int) (xPos - xDir * MOVE_SPEED)][(int) yPos] == 0)
-                xPos -= xDir * MOVE_SPEED;
-            if (map[(int) xPos][(int) (yPos - yDir * MOVE_SPEED)] == 0)
-                yPos -= yDir * MOVE_SPEED;
-        }
-        if (right) {
-            double oldxDir = xDir;
-            xDir = xDir * Math.cos(-ROTATION_SPEED) - yDir * Math.sin(-ROTATION_SPEED);
-            yDir = oldxDir * Math.sin(-ROTATION_SPEED) + yDir * Math.cos(-ROTATION_SPEED);
-            double oldxPlane = xPlane;
-            xPlane = xPlane * Math.cos(-ROTATION_SPEED) - yPlane * Math.sin(-ROTATION_SPEED);
-            yPlane = oldxPlane * Math.sin(-ROTATION_SPEED) + yPlane * Math.cos(-ROTATION_SPEED);
-        }
-        if (left) {
-            double oldxDir = xDir;
-            xDir = xDir * Math.cos(ROTATION_SPEED) - yDir * Math.sin(ROTATION_SPEED);
-            yDir = oldxDir * Math.sin(ROTATION_SPEED) + yDir * Math.cos(ROTATION_SPEED);
-            double oldxPlane = xPlane;
-            xPlane = xPlane * Math.cos(ROTATION_SPEED) - yPlane * Math.sin(ROTATION_SPEED);
-            yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
-        }
+ // Move the camera forward or backward
+ private void move(int[][] map, double dx, double dy) {
+    if (map[(int) (xPos + dx)][(int) yPos] == 0) {
+        xPos += dx;
+    }
+    if (map[(int) xPos][(int) (yPos + dy)] == 0) {
+        yPos += dy;
     }
 }
+ // Rotate the camera left or right
+ private void rotate(double angle) {
+    double oldDirX = xDir;
+    xDir = xDir * Math.cos(angle) - yDir * Math.sin(angle);
+    yDir = oldDirX * Math.sin(angle) + yDir * Math.cos(angle);
+
+    double oldPlaneX = xPlane;
+    xPlane = xPlane * Math.cos(angle) - yPlane * Math.sin(angle);
+    yPlane = oldPlaneX * Math.sin(angle) + yPlane * Math.cos(angle);
+}
+
+
+public void update(int[][] map) {
+    if (forward) {
+        move(map, xDir * MOVE_SPEED, yDir * MOVE_SPEED);
+    }
+    if (back) {
+        move(map, -xDir * MOVE_SPEED, -yDir * MOVE_SPEED);
+    }
+    if (right) {
+        rotate(-ROTATION_SPEED);
+    }
+    if (left) {
+        rotate(ROTATION_SPEED);
+    }
+}
+}
+

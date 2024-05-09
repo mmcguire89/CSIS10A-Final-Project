@@ -12,20 +12,36 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-    public int mapWidth = 10;
-    public int mapHeight = 10;
-    // Make the map bigger and a little more complex once you have your movement and performance issues figured out...
+    public int mapWidth = 25;
+    public int mapHeight = 25;
+    //This array is responsible for holding the layout of the map.  Each number, 0 - 4 corresponds with an open space, or a texture.
     public static int[][] map = {
-        {3, 4, 2, 3, 4, 1, 2, 3, 4, 2},
-        {4, 0, 0, 0, 0, 0, 0, 0, 0, 3},
-        {3, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-        {2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-        {4, 0, 0, 0, 0, 0, 0, 0, 0, 3},
-        {3, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-        {2, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-        {4, 3, 2, 1, 4, 3, 2, 1, 4, 3}
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     };
 
     private Camera camera;
@@ -33,24 +49,24 @@ public class Game extends Application {
     private WritableImage writableImage;
 
     @Override
+    //start method creates the window @ 800 x 600 pixels.
     public void start(Stage primaryStage) {
-        // Create the canvas at 640x480 pixels.  
-        Canvas canvas = new Canvas(640, 480);
+        Canvas canvas = new Canvas(800, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         this.writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 
-        // Textures array list - fixed null pointer exception.
+        // This array is used to hold the texture filenames.
         ArrayList<Texture> textures = new ArrayList<>();
         textures.add(new Texture("wood.png"));
         textures.add(new Texture("redbrick.png"));
         textures.add(new Texture("bluestone.png"));
         textures.add(new Texture("greyystone.png"));
 
-        // Camera starting pos
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -0.66);
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+        // Camera starting position
+        camera = new Camera(14, 14, 1, 0, 0, -0.66);
+        screen = new Screen(map, mapWidth, mapHeight, textures, 800, 600);
 
-        // Make and name the window
+        //Sets up the window name and canvas scene.
         primaryStage.setTitle("Jolfenstein 4D");
         Scene scene = new Scene(new StackPane(canvas));
         primaryStage.setScene(scene);
@@ -59,9 +75,9 @@ public class Game extends Application {
 
         // Register keyboard event handlers on key press and key release
         scene.setOnKeyPressed(camera.keyPressedHandler);
-        scene.setOnKeyReleased(camera.keyReleasedHandler);  
-        
-        //Might need to add an FPS limiter here; still getting wonky performance
+        scene.setOnKeyReleased(camera.keyReleasedHandler);
+
+        //Handles refreshing the screen to update rendering.
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -71,16 +87,19 @@ public class Game extends Application {
         };
         timer.start();
     }
-//getting some complaints about update... investigate more....
+
+    //
     public void update() {
         camera.update(map);
     }
 
+    //Added a mini-map; partially working.
     public void render(GraphicsContext gc) {
         screen.update(camera, writableImage);
         gc.drawImage(writableImage, 0, 0);
+        screen.renderMiniMap(gc, camera);
     }
-
+//main method that starts the game.
     public static void main(String[] args) {
         launch(args);
     }
