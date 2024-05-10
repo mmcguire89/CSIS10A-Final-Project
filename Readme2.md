@@ -137,7 +137,7 @@ Loads and stores textures for the game walls.
     - **Returns:**
       - The average color of the texture.
 
-
+Run using mvn javafx:run
 
 Main references:
 https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
