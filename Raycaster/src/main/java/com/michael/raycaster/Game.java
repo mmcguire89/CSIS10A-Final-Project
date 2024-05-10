@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class Game extends Application {
+    //Dimensions of the entire map.
     public int mapWidth = 25;
     public int mapHeight = 25;
     // This array is responsible for holding the layout of the map. Each number, 0 -
@@ -45,12 +46,15 @@ public class Game extends Application {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     };
 
+    // Instance of Camera class for player's perspective.
     private Camera camera;
+    //Instance of Screen class to render the game.
     private Screen screen;
+    //JavaFX method to display the rendered images in the window.
     private WritableImage writableImage;
 
     @Override
-    // start method creates the window @ 800 x 600 pixels.
+    // start method creates the window @ 800 x 600 pixels.  Creates the canvas, initializes stuff, and starts the game loop with AnimationTimer.
     public void start(Stage primaryStage) {
         Canvas canvas = new Canvas(800, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -89,15 +93,15 @@ public class Game extends Application {
         timer.start();
     }
 
-    //
+    //Updates the game's camera state.
     public void update() {
         camera.update(map);
     }
 
-    // Added a mini-map; partially working.
+    // Added a mini-map; partially working.  This method renders the game and map.
     public void render(GraphicsContext gc) {
         screen.update(camera, writableImage);
-        gc.drawImage(writableImage, 0, 0);
+        gc.drawImage(writableImage, 0, 0); //graphics context of canvas.
         screen.renderMiniMap(gc, camera);
     }
 

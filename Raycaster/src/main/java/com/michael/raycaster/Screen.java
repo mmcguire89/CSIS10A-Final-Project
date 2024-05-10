@@ -12,6 +12,7 @@ class Screen {
     public int mapWidth, mapHeight, width, height;
     public ArrayList<Texture> textures;
 
+    //Initializes screen with Map, dimensions, textures, and screen dimensions.
     public Screen(int[][] m, int mapW, int mapH, ArrayList<Texture> tex, int w, int h) {
         map = m;
         mapWidth = mapW;
@@ -21,7 +22,7 @@ class Screen {
         height = h;
     }
 
-    // see if you can condense/make this more elegant before Thursday.
+    // Renders the player's view based on the camera's current position.
     public void update(Camera camera, WritableImage image) {
         PixelWriter writer = image.getPixelWriter();
         for (int x = 0; x < width; x++) {
@@ -31,7 +32,6 @@ class Screen {
             int mapX = (int) camera.xPos;
             int mapY = (int) camera.yPos;
 
-           
             double deltaDistX = Math.sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
             double deltaDistY = Math.sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 
@@ -41,7 +41,6 @@ class Screen {
             double sideDistY = (rayDirY < 0 ? camera.yPos - mapY : mapY + 1.0 - camera.yPos) * deltaDistY;
             boolean hit = false;
             int side = 0;
-
 
             while (!hit) {
                 if (sideDistX < sideDistY) {
@@ -53,12 +52,12 @@ class Screen {
                     mapY += stepY;
                     side = 1;
                 }
-                if (map[mapX][mapY] > 0) hit = true;
+                if (map[mapX][mapY] > 0)
+                    hit = true;
             }
 
-            double perpWallDist = side == 0 ? 
-                (mapX - camera.xPos + (1 - stepX) / 2) / rayDirX : 
-                (mapY - camera.yPos + (1 - stepY) / 2) / rayDirY;
+            double perpWallDist = side == 0 ? (mapX - camera.xPos + (1 - stepX) / 2) / rayDirX
+                    : (mapY - camera.yPos + (1 - stepY) / 2) / rayDirY;
 
             int lineHeight = (int) (height / perpWallDist);
             int drawStart = Math.max(-lineHeight / 2 + height / 2, 0);
@@ -78,14 +77,16 @@ class Screen {
         }
     }
 
-    private void drawWallSlice(PixelWriter writer, int x, int drawStart, int drawEnd, int lineHeight, Texture texture, int texX) {
+    //Draws the vertical slice of wall, applying color and texture.
+    private void drawWallSlice(PixelWriter writer, int x, int drawStart, int drawEnd, int lineHeight, Texture texture,
+            int texX) {
         for (int y = drawStart; y < drawEnd; y++) {
             int texY = (y - drawStart) * Texture.SIZE / lineHeight;
             int color = texture.pixels[texX + texY * Texture.SIZE];
             writer.setColor(x, y, Color.rgb((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff));
         }
     }
-
+    //Sets floors and ceilings to solid colors.
     private void fillCeilingAndFloor(PixelWriter writer, int x, int drawStart, int drawEnd) {
         for (int y = 0; y < drawStart; y++) {
             writer.setColor(x, y, Color.SKYBLUE);
@@ -94,12 +95,13 @@ class Screen {
             writer.setColor(x, y, Color.DARKSLATEGREY);
         }
     }
-
+    //Renders the mini-map in game.  Prevents scale from reaching 0.
     public void renderMiniMap(GraphicsContext gc, Camera camera) {
         int miniMapWidth = 128;
         int miniMapHeight = 128;
         int scale = Math.max(miniMapWidth / mapWidth, miniMapHeight / mapHeight);
-        if (scale == 0) scale = 1;
+        if (scale == 0)
+            scale = 1;
 
         WritableImage miniMapImage = new WritableImage(miniMapWidth, miniMapHeight);
         PixelWriter miniMapWriter = miniMapImage.getPixelWriter();
@@ -109,10 +111,9 @@ class Screen {
                 if (map[x][y] > 0) {
                     Texture texture = textures.get(map[x][y] - 1);
                     Color tileColor = Color.rgb(
-                        (texture.getAverageColor() >> 16) & 0xff,
-                        (texture.getAverageColor() >> 8) & 0xff,
-                        texture.getAverageColor() & 0xff
-                    );
+                            (texture.getAverageColor() >> 16) & 0xff,
+                            (texture.getAverageColor() >> 8) & 0xff,
+                            texture.getAverageColor() & 0xff);
                     drawMiniMapTile(miniMapWriter, x, y, scale, tileColor, miniMapWidth, miniMapHeight);
                 }
             }
@@ -121,7 +122,8 @@ class Screen {
         drawPlayerOnMiniMap(gc, camera, scale, miniMapImage);
     }
 
-    private void drawMiniMapTile(PixelWriter writer, int x, int y, int scale, Color tileColor, int miniMapWidth, int miniMapHeight) {
+    private void drawMiniMapTile(PixelWriter writer, int x, int y, int scale, Color tileColor, int miniMapWidth,
+            int miniMapHeight) {
         int scaledX = x * scale;
         int scaledY = y * scale;
         for (int i = 0; i < scale; i++) {
