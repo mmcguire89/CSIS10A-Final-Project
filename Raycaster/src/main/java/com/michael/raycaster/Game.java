@@ -14,7 +14,8 @@ import javafx.stage.Stage;
 public class Game extends Application {
     public int mapWidth = 25;
     public int mapHeight = 25;
-    //This array is responsible for holding the layout of the map.  Each number, 0 - 4 corresponds with an open space, or a texture.
+    // This array is responsible for holding the layout of the map. Each number, 0 -
+    // 4 corresponds with an open space, or a texture.
     public static int[][] map = {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -49,7 +50,7 @@ public class Game extends Application {
     private WritableImage writableImage;
 
     @Override
-    //start method creates the window @ 800 x 600 pixels.
+    // start method creates the window @ 800 x 600 pixels.
     public void start(Stage primaryStage) {
         Canvas canvas = new Canvas(800, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -66,7 +67,7 @@ public class Game extends Application {
         camera = new Camera(14, 14, 1, 0, 0, -0.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, 800, 600);
 
-        //Sets up the window name and canvas scene.
+        // Sets up the window name and canvas scene.
         primaryStage.setTitle("Jolfenstein 4D");
         Scene scene = new Scene(new StackPane(canvas));
         primaryStage.setScene(scene);
@@ -77,7 +78,7 @@ public class Game extends Application {
         scene.setOnKeyPressed(camera.keyPressedHandler);
         scene.setOnKeyReleased(camera.keyReleasedHandler);
 
-        //Handles refreshing the screen to update rendering.
+        // Handles refreshing the screen to update rendering.
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -93,13 +94,14 @@ public class Game extends Application {
         camera.update(map);
     }
 
-    //Added a mini-map; partially working.
+    // Added a mini-map; partially working.
     public void render(GraphicsContext gc) {
         screen.update(camera, writableImage);
         gc.drawImage(writableImage, 0, 0);
         screen.renderMiniMap(gc, camera);
     }
-//main method that starts the game.
+
+    // main method that starts the game.
     public static void main(String[] args) {
         launch(args);
     }

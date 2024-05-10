@@ -3,15 +3,18 @@ package com.michael.raycaster;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 
+//Stores game textures
 class Texture {
-    public static final int SIZE = 64;
-    public int[] pixels;
+    public static final int SIZE = 64; //Size in pixels.  64x64
+    public int[] pixels; //pixel data array
 
+    //Loads a texture from specified filename.
     public Texture(String fileName) {
         loadTexture(fileName);
     }
 
-    private void loadTexture(String fileName) { // texture loading method
+    //Loads texture file into pixels arary.
+    private void loadTexture(String fileName) { 
         try {
             String path = getClass().getResource("/" + fileName).toExternalForm(); // pulls the external resource
             Image image = new Image(path); // path is responsible for image location.
